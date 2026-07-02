@@ -233,6 +233,25 @@ class EthioKeyboardApp {
     this.audioContext = null;
     this.init();
   }
+  toggleMatrixVisibility() {
+    const isCollapsed =
+      this.dom.matrixTableContainer.classList.toggle("collapsed");
+
+    // Update ARIA compliance states and button label values
+    this.dom.toggleMatrixBtn.setAttribute("aria-expanded", !isCollapsed);
+
+    const btnText =
+      this.dom.toggleMatrixBtn.querySelector(".btn-text") ||
+      this.dom.toggleMatrixBtn;
+    if (isCollapsed) {
+      btnText.innerText = "🐵 Show Matrix Table";
+    } else {
+      btnText.innerText = "🙈 Hide Matrix Table";
+    }
+
+    // Tiny audio feedback tick
+    this.playClickSound();
+  }
 
   init() {
     this.loadSettingsFromStorage();
@@ -269,6 +288,8 @@ class EthioKeyboardApp {
       searchResults: document.getElementById("searchResults"),
       activeModeBadge: document.getElementById("activeModeBadge"),
       hiddenFileInput: document.getElementById("hiddenFileInput"),
+      toggleMatrixBtn: document.getElementById("toggleMatrixBtn"),
+      matrixTableContainer: document.getElementById("matrixTableContainer"),
     };
   }
 
@@ -281,6 +302,9 @@ class EthioKeyboardApp {
     this.dom.editor.addEventListener("scroll", () => {
       this.dom.lineNumbers.scrollTop = this.dom.editor.scrollTop;
     });
+    this.dom.toggleMatrixBtn.addEventListener("click", () =>
+      this.toggleMatrixVisibility(),
+    );
 
     // Config Elements Controls Hooks
     this.dom.langMode.addEventListener("change", (e) => {
