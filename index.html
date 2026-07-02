@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="am" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethio Keyboard Pro - Advanced Geez Input Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Ethiopic:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 1. Header & Controls -->
+        <header class="app-header glass">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-icon">🇪🇹</span>
+                    <h1>Ethio Keyboard Pro <span class="version">v2.0</span></h1>
+                </div>
+            </div>
+            
+            <div class="header-controls">
+                <!-- Mode / Language Switcher -->
+                <div class="control-group">
+                    <label for="langMode" class="sr-only">Language Mode</label>
+                    <select id="langMode" aria-label="Select Keyboard Language Mode">
+                        <option value="amharic">አማርኛ (Amharic)</option>
+                        <option value="geez">ግዕዝ (Geez)</option>
+                        <option value="tigrinya">ትግርኛ (Tigrinya)</option>
+                        <option value="oromo">Afaan Oromo</option>
+                        <option value="english">English</option>
+                    </select>
+                </div>
+
+                <!-- Font Selector -->
+                <div class="control-group">
+                    <select id="fontSelector" aria-label="Select Typography Font">
+                        <option value="'Noto Sans Ethiopic', sans-serif">Noto Sans Ethiopic</option>
+                        <option value="'Abyssinica SIL', 'Nyala', sans-serif">Abyssinica SIL / Nyala</option>
+                        <option value="'Fira Code', monospace">System Monospace</option>
+                        <option value="sans-serif">System Sans-Serif</option>
+                    </select>
+                </div>
+
+                <!-- Theme Switcher -->
+                <div class="control-group">
+                    <select id="themeSelector" aria-label="Select UI Theme">
+                        <option value="dark">🌙 Dark Glass</option>
+                        <option value="light">☀️ Light Glass</option>
+                        <option value="blue">🌌 Deep Blue</option>
+                        <option value="green">🌲 Abyssinian Green</option>
+                        <option value="purple">🔮 Royal Purple</option>
+                    </select>
+                </div>
+
+                <!-- Sound Toggle -->
+                <button id="soundToggle" class="btn btn-icon" title="Toggle Typing Sound" aria-label="Toggle typing sound">
+                    <span class="icon">🔊</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Matrix -->
+        <main class="main-layout">
+            <!-- Left Workspace Pane: Editor & Keyboard -->
+            <section class="workspace-pane">
+                <!-- Toolbar Module -->
+                <div class="toolbar glass">
+                    <button class="tool-btn" id="toolUndo" title="Undo (Ctrl+Z)">↩️ Undo</button>
+                    <button class="tool-btn" id="toolRedo" title="Redo (Ctrl+Y)">↪️ Redo</button>
+                    <span class="divider"></span>
+                    <button class="tool-btn" id="toolCopy" title="Copy Text">📋 Copy</button>
+                    <button class="tool-btn" id="toolClear" title="Clear All">🧹 Clear</button>
+                    <button class="tool-btn" id="toolSelectAll" title="Select All">全 Select All</button>
+                    <span class="divider"></span>
+                    <button class="tool-btn" id="toolImport" title="Import Plain Text">📥 Import</button>
+                    <button class="tool-btn" id="toolExport" title="Download Text File">💾 Export</button>
+                    <button class="tool-btn" id="toolPrint" title="Print Document">🖨️ Print</button>
+                    <button class="tool-btn" id="toolShare" title="Copy Shareable Link">🔗 Share</button>
+                    <button class="tool-btn" id="toolFullscreen" title="Toggle Fullscreen">📺 Fullscreen</button>
+                </div>
+
+                <!-- Text Editor Sub-Module -->
+                <div class="editor-outer-container glass">
+                    <div class="editor-wrapper">
+                        <div class="line-numbers" id="lineNumbers">1</div>
+                        <textarea id="mainEditor" placeholder="Type English characters here to instantly transliterate to Geez script... (e.g., type 'ha lu mi' for ሀ ሉ ሚ)" spellcheck="false" autocomplete="off"></textarea>
+                    </div>
+                    
+                    <!-- Editor Footer Metadata Status Bar -->
+                    <footer class="editor-status-bar">
+                        <div class="status-left">
+                            <span id="wordCount">Words: 0</span>
+                            <span id="charCount">Characters: 0</span>
+                            <span id="activeModeBadge" class="badge">Amharic Transliteration</span>
+                        </div>
+                        <div class="status-right">
+                            <label for="fontSizeSlider" class="sr-only">Font Size</label>
+                            <span>Font Size:</span>
+                            <input type="range" id="fontSizeSlider" min="14" max="36" value="20" aria-label="Adjust font size">
+                            <span id="fontSizeVal">20px</span>
+                        </div>
+                    </footer>
+                </div>
+
+                <!-- Virtual Keyboard Component Layout -->
+                <div class="keyboard-container glass" id="virtualKeyboard" aria-label="Ethiopic Transliteration Layout Keyboard">
+                    <!-- Dynamic generation slot -->
+                </div>
+            </section>
+
+            <!-- Right Utilities Sidebar Sidebar -->
+            <aside class="utility-sidebar">
+                <!-- Segment 1: Search & Dynamic Glyph Lookups -->
+                <div class="utility-box glass">
+                    <h3>🔍 Quick Glyph Search</h3>
+                    <div class="search-wrapper">
+                        <input type="text" id="glyphSearchInput" placeholder="Type sound mapping (e.g. cha)..." aria-label="Search Ethiopic character mappings">
+                    </div>
+                    <div class="search-results-grid" id="searchResults">
+                        <span class="info-text">Matches appear instantly here...</span>
+                    </div>
+                </div>
+
+                <!-- Segment 2: Quick Features Quick Accessories -->
+                <div class="utility-box glass">
+                    <h3>✨ Special Symbols & Numbers</h3>
+                    <div class="quick-insert-grid" id="symbolsGrid">
+                        <!-- Symbols populated dynamically -->
+                    </div>
+                    <h3 style="margin-top: 15px;">😀 Quick Emojis</h3>
+                    <div class="quick-insert-grid" id="emojisGrid">
+                        <!-- Emojis populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Segment 3: Pin Favorites Component -->
+                <div class="utility-box glass">
+                    <h3>📌 Favorite / Pinned Glyphs</h3>
+                    <div class="quick-insert-grid" id="favoritesGrid">
+                        <span class="info-text">Click matrix glyphs to pin/unpin favorites here.</span>
+                    </div>
+                </div>
+
+                <!-- Segment 4: Recent Layout Documents History -->
+                <div class="utility-box glass">
+                    <h3>⏳ Text History Archives (Last 20)</h3>
+                    <div class="history-list" id="historyContainer">
+                        <span class="info-text">Saved text fragments appear here...</span>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Complete Comprehensive System Matrix Reference Panel Base -->
+        <section class="matrix-panel glass">
+            <h2>📊 Comprehensive Ethiopic Glyph Matrix Table</h2>
+            <p class="description">Click any cell to insert the character directly into your document at the cursor position.</p>
+            <div class="matrix-overflow-scroll">
+                <table class="glyph-matrix-table" id="matrixTable">
+                    <thead>
+                        <tr>
+                            <th>Family</th>
+                            <th>ግዕዝ (ä)</th>
+                            <th>ካዕብ (u)</th>
+                            <th>ሣልስ (i)</th>
+                            <th>ራብዕ (a)</th>
+                            <th>ኃምስ (e)</th>
+                            <th>ሳድስ (ə)</th>
+                            <th>ሳብዕ (o)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matrixTableBody">
+                        <!-- Dynamically populated rows -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- UI Hidden Audio Driver Context -->
+        <input type="file" id="hiddenFileInput" accept=".txt" style="display: none;">
+    </div>
+    <script src="./js/app.js"></script>
+</body>
+</html>
