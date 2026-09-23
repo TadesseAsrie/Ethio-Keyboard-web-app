@@ -87,3 +87,4 @@ Contributions are welcome!
 ##  Author
 
 Developed as an educational and open-source project for Ethiopian language typing and learning using HTML, CSS, and JavaScript.
+if you like this one Please pro ide star for support 
